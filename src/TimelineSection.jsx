@@ -98,26 +98,27 @@ const days = [
 export default function TimelineSection() {
   return (
     <div className="timeline-section">
+      <div className="site-container">
 
-      {/* Section Label */}
-      <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 3, color: "#111", textTransform: "uppercase", margin: "0 0 40px" }}>
-        II.&nbsp; Time Line
-      </p>
+        {/* Section Label */}
+        <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 3, color: "#111", textTransform: "uppercase", margin: "0 0 40px" }}>
+          II.&nbsp; Time Line
+        </p>
 
-      {days.map((day, di) => (
-        <div key={di} style={{ marginBottom: di < days.length - 1 ? 48 : 0 }}>
+        {days.map((day, di) => (
+          <div key={di} style={{ marginBottom: di < days.length - 1 ? 48 : 0 }}>
 
-          {/* Row */}
-          <div className="timeline-row">
+            {/* Row */}
+            <div className="timeline-row">
 
-            {/* Date label */}
-            <div className="timeline-date">
-              <div style={{ fontSize: 38, fontWeight: 900, lineHeight: 1, color: "#111" }}>{day.date}</div>
-              <div style={{ fontSize: 38, fontWeight: 900, lineHeight: 1, color: "#111" }}>{day.year}</div>
-            </div>
+              {/* Date label */}
+              <div className="timeline-date">
+                <div style={{ fontSize: 38, fontWeight: 900, lineHeight: 1, color: "#111" }}>{day.date}</div>
+                <div style={{ fontSize: 38, fontWeight: 900, lineHeight: 1, color: "#111" }}>{day.year}</div>
+              </div>
 
-            {/* Timeline + Cards */}
-            <div style={{ flex: 1, minWidth: 0 }}>
+              {/* Timeline + Cards */}
+              <div style={{ flex: 1, minWidth: 0 }}>
 
               {/* Dots line */}
               <div className="timeline-dots-scroll" style={{ marginBottom: 12 }}>
@@ -156,13 +157,12 @@ export default function TimelineSection() {
                 </div>
               </div>
 
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
 
-     
-
+      </div>
     </div>
   );
 }

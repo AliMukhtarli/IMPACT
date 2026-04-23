@@ -85,12 +85,7 @@ export default function SpeakersSection() {
     >
       {/* Container */}
       <div
-        style={{
-          maxWidth: 1250,
-          margin: "0 auto",
-          padding: "0 32px",
-          boxSizing: "border-box",
-        }}
+        className="site-container"
       >
         {/* Section title */}
         <p
