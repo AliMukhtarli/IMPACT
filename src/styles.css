@@ -48,23 +48,23 @@ body {
 
 .testimonial-bg {
   --layer-accent: #a855f7;
+  --layer-r: 168;
+  --layer-g: 85;
+  --layer-b: 247;
   position: absolute;
   inset: -1px;
   pointer-events: none;
   background:
     radial-gradient(800px 420px at 20% 5%, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0) 60%),
-    radial-gradient(900px 520px at 70% 30%, color-mix(in srgb, var(--layer-accent) 40%, transparent) 0%, rgba(0, 0, 0, 0) 62%),
-    radial-gradient(900px 380px at 25% 5%, color-mix(in srgb, var(--layer-accent) 18%, transparent), transparent 55%),
-    radial-gradient(900px 420px at 75% 45%, color-mix(in srgb, var(--layer-accent) 22%, transparent), transparent 65%);
-  opacity: 0.75;
-}
-
-.testimonial-bg--to {
+    radial-gradient(900px 520px at 70% 30%, rgba(var(--layer-r), var(--layer-g), var(--layer-b), 0.36) 0%, rgba(0, 0, 0, 0) 62%),
+    radial-gradient(900px 380px at 25% 5%, rgba(var(--layer-r), var(--layer-g), var(--layer-b), 0.18) 0%, rgba(0, 0, 0, 0) 55%),
+    radial-gradient(900px 420px at 75% 45%, rgba(var(--layer-r), var(--layer-g), var(--layer-b), 0.22) 0%, rgba(0, 0, 0, 0) 65%);
   opacity: 0;
-  transition: opacity 520ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: opacity 140ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: opacity;
 }
 
-.testimonial-bg--to.is-visible {
+.testimonial-bg.is-active {
   opacity: 0.75;
 }
 
@@ -96,8 +96,9 @@ body {
 }
 
 .testimonial-section__title span {
-  color: color-mix(in srgb, var(--bg-accent) 55%, #ffffff);
-  transition: color 520ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  color: #d8b4fe;
+  color: rgba(var(--bg-r, 168), var(--bg-g, 85), var(--bg-b, 247), 0.92);
+  transition: color 140ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .testimonial-section__subtitle {
@@ -114,6 +115,82 @@ body {
   padding-top: 6px;
 }
 
+.testimonial-metrics {
+  margin-top: clamp(50px, 6vw, 64px);
+  padding: 10px 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(18px, 4vw, 46px);
+}
+
+.testimonial-metrics__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  padding: 14px 0;
+  cursor: default;
+}
+
+.testimonial-metrics__value {
+  font-size: clamp(18px, 2.2vw, 26px);
+  letter-spacing: -0.02em;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.92);
+  transition:
+    color 140ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 140ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.testimonial-metrics__label {
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.55);
+  text-transform: uppercase;
+}
+
+/* Hover: highlight number with current accent */
+.testimonial-metrics__item:hover .testimonial-metrics__value {
+  color: rgba(var(--bg-r, 168), var(--bg-g, 85), var(--bg-b, 247), 0.98);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 840px) {
+  .testimonial-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .testimonial-metrics__item + .testimonial-metrics__item {
+    border-left: none;
+  }
+  .testimonial-metrics__item {
+    padding: 10px 0;
+  }
+  .testimonial-metrics__item:nth-child(odd) {
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    padding-right: 14px;
+  }
+}
+
+@media (max-width: 520px) {
+  .testimonial-metrics {
+    grid-template-columns: 1fr;
+  }
+  .testimonial-metrics__item:nth-child(odd) {
+    border-right: none;
+    padding-right: 0;
+  }
+  .testimonial-metrics__item {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 14px 0;
+  }
+  .testimonial-metrics__item:first-child {
+    border-top: none;
+  }
+}
+
 .testimonial-glow {
   position: absolute;
   left: 50%;
@@ -121,7 +198,11 @@ body {
   width: min(560px, 86vw);
   height: 260px;
   transform: translateX(-50%);
-  background: radial-gradient(closest-side, color-mix(in srgb, var(--bg-accent) 55%, transparent), transparent 70%);
+  background: radial-gradient(
+    closest-side,
+    rgba(var(--bg-r, 168), var(--bg-g, 85), var(--bg-b, 247), 0.55),
+    rgba(var(--bg-r, 168), var(--bg-g, 85), var(--bg-b, 247), 0) 70%
+  );
   filter: blur(28px);
   opacity: 0.55;
   pointer-events: none;

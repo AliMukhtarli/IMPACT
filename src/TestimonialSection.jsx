@@ -5,6 +5,23 @@ function mod(n, m) {
   return ((n % m) + m) % m;
 }
 
+function hexToRgb(hex) {
+  const h = (hex ?? "").replace("#", "").trim();
+  if (h.length === 3) {
+    const r = parseInt(h[0] + h[0], 16);
+    const g = parseInt(h[1] + h[1], 16);
+    const b = parseInt(h[2] + h[2], 16);
+    return { r, g, b };
+  }
+  if (h.length === 6) {
+    const r = parseInt(h.slice(0, 2), 16);
+    const g = parseInt(h.slice(2, 4), 16);
+    const b = parseInt(h.slice(4, 6), 16);
+    return { r, g, b };
+  }
+  return { r: 168, g: 85, b: 247 };
+}
+
 export default function TestimonialSection() {
   const testimonials = useMemo(
     () => [
@@ -42,13 +59,15 @@ export default function TestimonialSection() {
   );
 
   const [centerIndex, setCenterIndex] = useState(1);
+  const centerIndexRef = useRef(1);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isResetting, setIsResetting] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
-  const [bgFrom, setBgFrom] = useState("#a855f7");
-  const [bgTo, setBgTo] = useState("#a855f7");
-  const [isBgFading, setIsBgFading] = useState(false);
-  const didInitBgRef = useRef(false);
+  const [bgActiveLayer, setBgActiveLayer] = useState("a"); // 'a' | 'b'
+  const bgActiveLayerRef = useRef("a");
+  const [bgLayerA, setBgLayerA] = useState({ accent: "#a855f7", rgb: hexToRgb("#a855f7") });
+  const [bgLayerB, setBgLayerB] = useState({ accent: "#a855f7", rgb: hexToRgb("#a855f7") });
+  const bgSwapRafRef = useRef(null);
   const timerRef = useRef(null);
   const pausedRef = useRef(false);
   const animatingRef = useRef(false);
@@ -65,6 +84,37 @@ export default function TestimonialSection() {
 
   const durationMs = 650;
   const intervalMs = 3500;
+
+  useEffect(() => {
+    centerIndexRef.current = centerIndex;
+  }, [centerIndex]);
+
+  useEffect(() => {
+    bgActiveLayerRef.current = bgActiveLayer;
+  }, [bgActiveLayer]);
+
+  const crossfadeBgTo = (nextAccent) => {
+    const next = { accent: nextAccent, rgb: hexToRgb(nextAccent) };
+    if (reduceMotion.current) {
+      setBgLayerA(next);
+      setBgLayerB(next);
+      setBgActiveLayer("a");
+      bgActiveLayerRef.current = "a";
+      return;
+    }
+
+    const inactive = bgActiveLayerRef.current === "a" ? "b" : "a";
+    if (inactive === "a") setBgLayerA(next);
+    else setBgLayerB(next);
+
+    if (bgSwapRafRef.current) window.cancelAnimationFrame(bgSwapRafRef.current);
+    // Ensure the new layer's CSS vars are committed before opacity crossfade.
+    bgSwapRafRef.current = window.requestAnimationFrame(() => {
+      setBgActiveLayer(inactive);
+      bgActiveLayerRef.current = inactive;
+      bgSwapRafRef.current = null;
+    });
+  };
 
   const advance = () => {
     if (animatingRef.current) return;
@@ -101,12 +151,20 @@ export default function TestimonialSection() {
     const finish = () => {
       if (done) return;
       done = true;
+
+      // Change background accent exactly when the center card changes.
+      const idx = centerIndexRef.current;
+      const nextAccent =
+        testimonials[mod(idx + 1, testimonials.length)]?.accent ?? "#a855f7";
+      crossfadeBgTo(nextAccent);
+
       // Prevent the "push then return" effect by disabling transitions
       // for one frame while we snap cards into their new slots.
       setIsResetting(true);
       setCenterIndex((i) => mod(i + 1, testimonials.length));
       setIsAnimating(false);
       animatingRef.current = false;
+
       window.requestAnimationFrame(() => {
         window.requestAnimationFrame(() => setIsResetting(false));
       });
@@ -124,30 +182,6 @@ export default function TestimonialSection() {
     };
   }, [isAnimating, testimonials.length]);
 
-  // Smooth background accent crossfade (avoids "pushing"/snapping gradients).
-  useEffect(() => {
-    const nextAccent = testimonials[mod(centerIndex, testimonials.length)]?.accent ?? "#a855f7";
-    if (!didInitBgRef.current) {
-      didInitBgRef.current = true;
-      setBgFrom(nextAccent);
-      setBgTo(nextAccent);
-      setIsBgFading(false);
-      return;
-    }
-    setBgTo(nextAccent);
-    if (reduceMotion.current) {
-      setBgFrom(nextAccent);
-      setIsBgFading(false);
-      return;
-    }
-    setIsBgFading(true);
-    const t = window.setTimeout(() => {
-      setBgFrom(nextAccent);
-      setIsBgFading(false);
-    }, 520);
-    return () => window.clearTimeout(t);
-  }, [centerIndex, testimonials]);
-
   const left = testimonials[mod(centerIndex - 1, testimonials.length)];
   const center = testimonials[mod(centerIndex, testimonials.length)];
   const right = testimonials[mod(centerIndex + 1, testimonials.length)];
@@ -155,7 +189,14 @@ export default function TestimonialSection() {
   // (When there are exactly 3 items, this will equal `left` — that's fine.)
   const enter = testimonials[mod(centerIndex + 2, testimonials.length)];
 
-  const bgStyle = { "--bg-accent": center.accent };
+  const activeAccent = center.accent;
+  const activeRgb = hexToRgb(activeAccent);
+  const bgStyle = {
+    "--bg-accent": activeAccent,
+    "--bg-r": String(activeRgb.r),
+    "--bg-g": String(activeRgb.g),
+    "--bg-b": String(activeRgb.b),
+  };
 
   return (
     <section
@@ -164,10 +205,24 @@ export default function TestimonialSection() {
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      <div className="testimonial-bg testimonial-bg--from" style={{ "--layer-accent": bgFrom }} aria-hidden="true" />
       <div
-        className={`testimonial-bg testimonial-bg--to ${isBgFading ? "is-visible" : ""}`}
-        style={{ "--layer-accent": bgTo }}
+        className={`testimonial-bg ${bgActiveLayer === "a" ? "is-active" : ""}`}
+        style={{
+          "--layer-accent": bgLayerA.accent,
+          "--layer-r": String(bgLayerA.rgb.r),
+          "--layer-g": String(bgLayerA.rgb.g),
+          "--layer-b": String(bgLayerA.rgb.b),
+        }}
+        aria-hidden="true"
+      />
+      <div
+        className={`testimonial-bg ${bgActiveLayer === "b" ? "is-active" : ""}`}
+        style={{
+          "--layer-accent": bgLayerB.accent,
+          "--layer-r": String(bgLayerB.rgb.r),
+          "--layer-g": String(bgLayerB.rgb.g),
+          "--layer-b": String(bgLayerB.rgb.b),
+        }}
         aria-hidden="true"
       />
 
@@ -193,6 +248,25 @@ export default function TestimonialSection() {
             <TestimonialCard t={center} slot="center" isAnimating={isAnimating} />
             <TestimonialCard t={right} slot="right" isAnimating={isAnimating} />
             <TestimonialCard t={enter} slot="enter" isAnimating={isAnimating} />
+          </div>
+        </div>
+
+        <div className="testimonial-metrics" aria-label="Impact statistics">
+          <div className="testimonial-metrics__item">
+            <div className="testimonial-metrics__value">500+</div>
+            <div className="testimonial-metrics__label">MENTORS ACTIVE</div>
+          </div>
+          <div className="testimonial-metrics__item">
+            <div className="testimonial-metrics__value">12K</div>
+            <div className="testimonial-metrics__label">TOTAL ALUMNI</div>
+          </div>
+          <div className="testimonial-metrics__item">
+            <div className="testimonial-metrics__value">$2.5M</div>
+            <div className="testimonial-metrics__label">PRIZE POOL ’24</div>
+          </div>
+          <div className="testimonial-metrics__item">
+            <div className="testimonial-metrics__value">98%</div>
+            <div className="testimonial-metrics__label">PLACEMENT RATE</div>
           </div>
         </div>
       </div>
