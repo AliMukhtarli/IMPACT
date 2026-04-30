@@ -43,7 +43,12 @@ export default function TestimonialSection() {
 
   const [centerIndex, setCenterIndex] = useState(1);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isResetting, setIsResetting] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  const [bgFrom, setBgFrom] = useState("#a855f7");
+  const [bgTo, setBgTo] = useState("#a855f7");
+  const [isBgFading, setIsBgFading] = useState(false);
+  const didInitBgRef = useRef(false);
   const timerRef = useRef(null);
   const pausedRef = useRef(false);
   const animatingRef = useRef(false);
@@ -59,7 +64,7 @@ export default function TestimonialSection() {
   }, []);
 
   const durationMs = 650;
-  const intervalMs = 2500;
+  const intervalMs = 3500;
 
   const advance = () => {
     if (animatingRef.current) return;
@@ -96,9 +101,15 @@ export default function TestimonialSection() {
     const finish = () => {
       if (done) return;
       done = true;
+      // Prevent the "push then return" effect by disabling transitions
+      // for one frame while we snap cards into their new slots.
+      setIsResetting(true);
       setCenterIndex((i) => mod(i + 1, testimonials.length));
       setIsAnimating(false);
       animatingRef.current = false;
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => setIsResetting(false));
+      });
     };
 
     const onEnd = (e) => {
@@ -113,23 +124,53 @@ export default function TestimonialSection() {
     };
   }, [isAnimating, testimonials.length]);
 
+  // Smooth background accent crossfade (avoids "pushing"/snapping gradients).
+  useEffect(() => {
+    const nextAccent = testimonials[mod(centerIndex, testimonials.length)]?.accent ?? "#a855f7";
+    if (!didInitBgRef.current) {
+      didInitBgRef.current = true;
+      setBgFrom(nextAccent);
+      setBgTo(nextAccent);
+      setIsBgFading(false);
+      return;
+    }
+    setBgTo(nextAccent);
+    if (reduceMotion.current) {
+      setBgFrom(nextAccent);
+      setIsBgFading(false);
+      return;
+    }
+    setIsBgFading(true);
+    const t = window.setTimeout(() => {
+      setBgFrom(nextAccent);
+      setIsBgFading(false);
+    }, 520);
+    return () => window.clearTimeout(t);
+  }, [centerIndex, testimonials]);
+
   const left = testimonials[mod(centerIndex - 1, testimonials.length)];
   const center = testimonials[mod(centerIndex, testimonials.length)];
   const right = testimonials[mod(centerIndex + 1, testimonials.length)];
-  // With exactly 3 testimonials, the "new entering" one equals the current left.
-  const enter = left;
+  // The entering card should be the one AFTER the right card.
+  // (When there are exactly 3 items, this will equal `left` — that's fine.)
+  const enter = testimonials[mod(centerIndex + 2, testimonials.length)];
 
-  const bgStyle = {
-    "--bg-accent": center.accent,
-  };
+  const bgStyle = { "--bg-accent": center.accent };
 
   return (
     <section
-      className={`testimonial-section ${isAnimating ? "is-shifting" : ""}`}
+      className={`testimonial-section ${isAnimating ? "is-shifting" : ""} ${isResetting ? "is-resetting" : ""}`}
       style={bgStyle}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
+      <div className="testimonial-bg testimonial-bg--from" style={{ "--layer-accent": bgFrom }} aria-hidden="true" />
+      <div
+        className={`testimonial-bg testimonial-bg--to ${isBgFading ? "is-visible" : ""}`}
+        style={{ "--layer-accent": bgTo }}
+        aria-hidden="true"
+      />
+
       <div className="site-container testimonial-section__inner">
         <div className="testimonial-section__header">
           <div className="testimonial-section__label">VOICES OF INNOVATION</div>

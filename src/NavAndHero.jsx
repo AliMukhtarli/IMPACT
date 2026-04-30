@@ -28,7 +28,7 @@ export default function NavAndHero() {
       {/* Navbar */}
       <nav className="impact-nav">
         <div className="site-container impact-nav-inner">
-          <span style={{ fontSize: 14, fontWeight: 700, letterSpacing: 1 }}>D/</span>
+          <span style={{ fontSize: 26, fontWeight: 700, letterSpacing: 1 }}>D/</span>
 
           <div className="impact-nav-actions">
           

@@ -8,8 +8,8 @@ const categories = [
       "Master the art of visual storytelling and user-centric architecture to create interfaces that feel intuitive and powerful.",
     icon: (
       <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-        <path d="M8 28L20 10M20 10L24 18M20 10L14 14" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        <circle cx="8" cy="28" r="3" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5"/>
+        <path d="M8 28L19.6 10M20 10L20 18M20 9L12 14" stroke="rgba(255,255,255,0.25)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <circle cx="8" cy="28" r="6" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5"/>
       </svg>
     ),
   },
@@ -22,7 +22,7 @@ const categories = [
       <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
         <path d="M10 18L6 14L10 10" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         <path d="M26 18L30 14L26 10" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M20 8L16 28" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" strokeLinecap="round"/>
+        <path d="M20 10L17 18" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" strokeLinecap="round"/>
       </svg>
     ),
   },
