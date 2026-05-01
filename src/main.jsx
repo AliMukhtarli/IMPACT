@@ -10,11 +10,11 @@ import "./styles.css";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <>
+  <div style={{ background: "#1a0a2e" }}>
     <NavAndHero />
     <TimelineSection />
     <SpeakersSection />
     <ContestPathways />
     <TestimonialSection />
-  </>
+  </div>
 );

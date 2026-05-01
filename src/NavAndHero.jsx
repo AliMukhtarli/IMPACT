@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 
 
@@ -8,18 +8,12 @@ export default function NavAndHero() {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    document.body.style.margin = "0";
-    document.body.style.background = "#1a0a2e";
-  }, []);
-
   return (
     <div style={{
       fontFamily: "'Inter', sans-serif",
       background: "#1a0a2e",
       color: "#ffffff",
       width: "100%",          // ❗ 100vw yox
-      minHeight: "100vh",     // ❗ əlavə et
       margin: 0,
       padding: 0,
       boxSizing: "border-box"

@@ -16,6 +16,11 @@ body {
   overflow-x: hidden;
 }
 
+body {
+  margin: 0;
+  background: #1a0a2e;
+}
+
 /* Shared layout container */
 .site-container {
   max-width: 1250px;
