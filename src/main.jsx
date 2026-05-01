@@ -5,6 +5,7 @@ import TimelineSection from "./TimelineSection";
 import SpeakersSection from "./Speakers"
 import ContestPathways from "./ContestantPathWay";
 import TestimonialSection from "./TestimonialSection";
+import Footer from "./Footer";
 import "./styles.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -16,5 +17,6 @@ root.render(
     <SpeakersSection />
     <ContestPathways />
     <TestimonialSection />
+    <Footer />
   </div>
 );
