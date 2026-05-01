@@ -93,7 +93,7 @@ export default function Footer() {
   const [scheduleHovered, setScheduleHovered] = useState(false);
 
   return (
-    <div style={{ fontFamily: "'Inter', sans-serif", background: "#0d0717" }}>
+    <div className="impact-footer" style={{ fontFamily: "'Inter', sans-serif", background: "#0d0717" }}>
 
       {/* ── CTA Section ── */}
       <div
@@ -184,6 +184,7 @@ export default function Footer() {
         }}
       >
         <div
+          className="impact-footer__grid"
           style={{
             display: "grid",
             gridTemplateColumns: "2fr 1fr 1fr 1.5fr",

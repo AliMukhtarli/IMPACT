@@ -111,7 +111,7 @@ export default function NavAndHero() {
           </div>
 
           <div className="impact-quoteRow">
-            <span style={{ fontSize: 90, color: "rgb(255, 255, 255)", fontFamily: "Georgia, serif" }}>“</span>
+            <span className="impact-quoteMark" aria-hidden="true">“</span>
 
             <div className="impact-quoteBox">
               <p style={{ fontSize: 12.5, lineHeight: 1.75, color: "rgba(255,255,255,0.65)", textAlign: "justify", margin: 0 }}>

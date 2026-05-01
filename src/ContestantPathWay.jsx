@@ -96,7 +96,6 @@ export default function ContestPathways() {
         fontFamily: "'Inter', sans-serif",
         padding: "clamp(40px, 6vw, 80px) clamp(24px, 5vw, 80px)",
         boxSizing: "border-box",
-        minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
@@ -105,6 +104,7 @@ export default function ContestPathways() {
       <div>
         {/* Header */}
         <div
+          className="contest-pathways__header"
           style={{
             display: "flex",
             justifyContent: "space-between",
@@ -144,11 +144,12 @@ export default function ContestPathways() {
           </div>
 
           <p
+            className="contest-pathways__subcopy"
             style={{
               fontSize: "clamp(12px, 1.3vw, 14px)",
               color: "rgba(255,255,255,0.6)",
               lineHeight: 1.7,
-              maxWidth: 280,
+              maxWidth: 420,
               margin: 0,
               alignSelf: "flex-end",
               textAlign: "right",

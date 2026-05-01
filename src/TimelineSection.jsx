@@ -122,7 +122,7 @@ export default function TimelineSection() {
 
               {/* Dots line */}
               <div className="timeline-dots-scroll" style={{ marginBottom: 12 }}>
-                <div style={{ display: "flex", alignItems: "center", minWidth: 520 }}>
+                <div style={{ display: "flex", alignItems: "center" }}>
                   {day.events.map((_, i) => (
                     <React.Fragment key={i}>
                       <div style={{ width: 10, height: 10, borderRadius: "50%", border: "2px solid #aaa", background: "#f0eef4", flexShrink: 0 }} />
