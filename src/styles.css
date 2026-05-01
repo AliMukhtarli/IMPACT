@@ -530,10 +530,59 @@ body {
 }
 
 .impact-content-divider {
-  height: 0.5px;
+  height: 1px;
   background: rgba(255, 255, 255, 0.15);
-  margin: 0 0 24px;
-  width: 40%;
+  margin: 0;
+  width: 100%;
+}
+
+.impact-dividerRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 46px;
+}
+
+.impact-quoteRow {
+  display: grid;
+  grid-template-columns: 60px minmax(0, 1fr);
+  column-gap: clamp(60px, 7vw, 220px);
+  margin-top: 18px;
+}
+
+.impact-content-divider--left {
+  width: 100%;
+}
+
+.impact-content-divider--right {
+  width: 100%;
+}
+
+.impact-quoteBox {
+  max-width: clamp(50ch, 50vw, 64ch);
+  margin-left: auto;
+  justify-self: end;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+@media (max-width: 640px) {
+  .impact-dividerRow {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .impact-quoteRow {
+    grid-template-columns: 48px minmax(0, 1fr);
+    column-gap: 14px;
+    margin-top: 16px;
+  }
+  .impact-quoteBox {
+    padding: 0;
+    border-radius: 0;
+  }
 }
 
 @media (max-width: 640px) {

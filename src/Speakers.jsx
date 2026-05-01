@@ -107,12 +107,12 @@ export default function SpeakersSection() {
             key={i}
             style={{
               position: "relative",
-              height: 220,
+              height: 270,
               overflow: "hidden",
-              marginBottom: 4,
+              marginBottom: 30,
               background: "#3b0764",
               boxSizing: "border-box",
-              borderRadius: 8,
+              borderRadius: 5,
             }}
           >
             {/* Background image */}

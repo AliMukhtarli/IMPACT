@@ -105,17 +105,23 @@ export default function NavAndHero() {
              — for a day of real conversations and a live product challenge. Less theory, more reps.
           </p>
 
-          <div className="impact-content-divider" />
+          <div className="impact-dividerRow" aria-hidden="true">
+            <div className="impact-content-divider impact-content-divider--left" />
+            <div className="impact-content-divider impact-content-divider--right" />
+          </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "60px 1fr", gap: 20 }}>
-            <span style={{ fontSize: 56, color: "rgba(255,255,255,0.25)", fontFamily: "Georgia, serif" }}>“</span>
+          <div className="impact-quoteRow">
+            <span style={{ fontSize: 90, color: "rgb(255, 255, 255)", fontFamily: "Georgia, serif" }}>“</span>
 
-            <p style={{ fontSize: 12.5, lineHeight: 1.75, color: "rgba(255,255,255,0.65)", textAlign: "justify" }}>
-              Impact doesn't bridge a gap that doesn't exist. It just turns up the heat. Desinftec is bringing real founders, 
-              real conversations, and a live product challenge to Khazar University, giving teams a dedicated day to go head to head with industry 
-              and each other. This is not about closing a distance between education and execution — that distance is already shrinking.
-               This is about accelerating what's already in motion — and finding out who rises when the pressure is real.
-            </p>
+            <div className="impact-quoteBox">
+              <p style={{ fontSize: 12.5, lineHeight: 1.75, color: "rgba(255,255,255,0.65)", textAlign: "justify", margin: 0 }}>
+                Impact doesn't bridge a gap that doesn't exist. It just turns up the heat. Desinftec is bringing real founders,
+                real conversations, and a live product challenge to Khazar University, giving teams a dedicated day to go head to head
+                with industry and each other. This is not about closing a distance between education and execution — that distance is
+                already shrinking. This is about accelerating what's already in motion — and finding out who rises when the pressure is
+                real.
+              </p>
+            </div>
           </div>
         </div>
       </div>
