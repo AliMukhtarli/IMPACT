@@ -83,7 +83,7 @@ export default function TestimonialSection() {
   }, []);
 
   const durationMs = 650;
-  const intervalMs = 3500;
+  const intervalMs = 5500;
 
   useEffect(() => {
     centerIndexRef.current = centerIndex;

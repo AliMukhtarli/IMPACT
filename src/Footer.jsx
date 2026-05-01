@@ -108,7 +108,7 @@ export default function Footer() {
           style={{
             fontSize: "clamp(32px, 6vw, 72px)",
             fontWeight: 900,
-            letterSpacing: -1,
+            letterSpacing: -5,
             textTransform: "uppercase",
             margin: "0 0 24px",
             lineHeight: 1.05,
@@ -244,10 +244,10 @@ export default function Footer() {
             <div key={heading}>
               <div
                 style={{
-                  fontSize: 10,
-                  fontWeight: 700,
+                  fontSize: 13,
+                  fontWeight: 900,
                   letterSpacing: 2,
-                  color: "rgba(255,255,255,0.5)",
+                  color: "rgba(247, 195, 255, 1)",
                   textTransform: "uppercase",
                   marginBottom: 20,
                 }}
