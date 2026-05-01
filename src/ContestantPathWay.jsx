@@ -193,7 +193,7 @@ export default function ContestPathways() {
                 <span
                   style={{
                     fontSize: 11,
-                    color: "rgba(255,255,255,0.35)",
+                    color: "rgba(247, 195, 255, 1)",
                     letterSpacing: 1,
                     fontWeight: 500,
                   }}
@@ -236,7 +236,7 @@ export default function ContestPathways() {
                 style={{
                   width: 32,
                   height: 2.5,
-                  background: "#b06aff",
+                  background: "rgba(247, 195, 255, 1)",
                   borderRadius: 2,
                 }}
               />

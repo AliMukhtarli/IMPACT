@@ -232,7 +232,9 @@ export default function TestimonialSection() {
           <h2 className="testimonial-section__title">
             BUILT BY BUILDERS.
             <br />
-            <span>MENTORED BY GIANTS.</span>
+            <span>
+              <span className="testimonial-section__titleAccent">MENTORED</span> BY GIANTS.
+            </span>
           </h2>
           <p className="testimonial-section__subtitle">
             Discover why the industry's brightest minds choose IMPACT as their proving ground for the next generation of
